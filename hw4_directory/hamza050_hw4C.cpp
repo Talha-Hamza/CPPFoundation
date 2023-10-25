@@ -1,3 +1,8 @@
+// EE 1301 
+// HW 4C
+// Talha Hamza
+// HAMZA050
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -11,11 +16,12 @@ int main() {
     if (!filesystem::exists("output_files")) {
         filesystem::create_directory("output_files");
     }
-
+    // use the filesystem library to create a path to the output_files folder and a path to the election_results.txt file
+    // This should work on Windows, Mac, and Linux
     std::filesystem::path folderPath = "output_files";
     std::filesystem::path fileName = "election_results.txt";
 
-
+    // do the same for the input_files folder and the blahblah.txt file
     std::filesystem::path inputfolderPath = "input_files";
     std::filesystem::path inputfileName = "blahblah.txt";
     std::filesystem::path inputfilePath = inputfolderPath / inputfileName;
@@ -40,7 +46,8 @@ int main() {
 
     string str;
 
-    while (getline(in, str)) {  // Read a line at a time
+    while (getline(in, str)) {  // Read a line at a time from the file and count the number of each vowel in each line. Iterate through each line, 
+                                //  move on to the next line until the end of the file is reached.
         for (int i = 0; i < str.length(); i++) {
             if (str[i] == 'a' || str[i] == 'A') {
                 a_count++;
@@ -60,7 +67,7 @@ int main() {
 
     int highest_count; 
     string winner; 
-
+// Compare the number of votes for each vowel and determine which vowel has the highest number of votes.
     if (a_count > e_count && a_count > i_count && a_count > o_count && a_count > u_count) {
         highest_count = a_count;
         winner = 'A';

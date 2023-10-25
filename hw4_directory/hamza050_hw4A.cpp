@@ -1,3 +1,8 @@
+// EE 1301 
+// HW 4A
+// Talha Hamza
+// HAMZA050
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -5,34 +10,32 @@
 using namespace std;
 
 int main() {
-    ifstream inFS("grades.txt");
+    ifstream inFS("grades.txt"); // Open a file stream for reading from "grades.txt"
     string name1;
     string name2;
     double grade;
 
+    // initialize counters for each grade
     int count_A = 0;
     int count_B = 0;
     int count_C = 0;
     int count_D = 0;
     int count_F = 0;
    
-
+    // Check if input file stream opened successfully.
     if (!inFS.is_open()) {
         // cout << "Could not open file grades.txt." << endl;
-        return 1;
+        return 1; // if not, exit program
     }
 
     // cout << "Reading names and ages:" << endl;
 
-       int count = 0;
-    while (inFS >> name1 >> name2 >> grade) { // Check after reading
+    // read from grades.txt and count the number of each grade and the total number of grades by using a while loop and if statements.  
+    // while loop is used to read the file until the end of the file is reached. 
+    // if statements are used to count the number of each grade and the total number of grades.
+    int count = 0;
+    while (inFS >> name1 >> name2 >> grade) { 
         count++;
-        // cout << "Student " << count << endl;
-        // cout << "First name: " << name1 << endl;
-        // cout << "Last name: " << name2 << endl;
-        // cout << "Grade: " << grade << endl;
-        // cout << endl;
-
         if (grade >= 90) {
             count_A++;
         }
@@ -50,6 +53,7 @@ int main() {
         }
     }
 
+    // if the input file stream did not reach the end of the file, print an error message
     if (!inFS.eof()) {
         // cout << "Input failure before reaching the end of the file." << endl;
     }
@@ -66,7 +70,6 @@ int main() {
     ofstream outFS("statistics.csv", ios::app);
 
     // write the statistics to the file
-
     outFS << "A," << count_A << endl;
     outFS << "B," << count_B << endl;
     outFS << "C," << count_C << endl;
