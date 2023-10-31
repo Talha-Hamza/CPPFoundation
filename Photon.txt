@@ -1,3 +1,4 @@
 Your device id is 19002a001047313134383335
 Your system firmware version is 1.4.4
 TalhaPhoton
+Token:      832e9eda4da2a6d1cfb528ac93d76e0611fddd34

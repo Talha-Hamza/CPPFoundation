@@ -1,0 +1,3 @@
+Event Name: djoCloudRedAlert
+
+https://maker.ifttt.com/trigger/{event}/json/with/key/bdqDii4wXq9pM2N9XGG11d
