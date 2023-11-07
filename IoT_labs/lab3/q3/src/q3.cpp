@@ -3,6 +3,7 @@
 #define HEAT 2
 #define REDALERT 3
 int mode = OFF;
+double cV_targetTemp = 70.0; // newly added 
 
 // Include Particle Device OS APIs
 #include "Particle.h"
@@ -12,7 +13,7 @@ int mode = OFF;
 SYSTEM_MODE(AUTOMATIC);
 
 // Run the application and system concurrently in separate threads
-SYSTEM_THREAD(ENABLED);
+SYSTEM_THREAD(DISABLED);
 
 // Show system, cloud connectivity, and application logs over USB
 // View logs with CLI using 'particle serial monitor --follow'
@@ -20,6 +21,7 @@ SerialLogHandler logHandler(LOG_LEVEL_INFO);
 int tempPIN = A1;
 double tempC = 0.0;
 int setModeFromString(String inputString);
+int setTargetTempFromString(String inputString2);
 
 int PIXEL_PIN = D4;
 int PIXEL_COUNT = 1;
@@ -33,7 +35,9 @@ void setup() {
   pinMode(tempPIN,INPUT);
   Serial.begin(9600);
   Particle.variable("tempC",tempC);
+  Particle.variable("cV_targetTemp",cV_targetTemp); // newly added
   Particle.function("cF_setMode", setModeFromString);
+  Particle.function("cF_setTargetTemp", setTargetTempFromString);
   strip.begin();
 }
 
@@ -70,6 +74,12 @@ void loop() {
     delay(1000);
 }
 
+int setTargetTempFromString(String inputString2) {
+    cV_targetTemp = inputString2.toFloat();
+    Particle.publish("Too hot, please add water!");
+    return 1;
+}
+
 int setModeFromString(String inputString) {
     if (inputString == "Cool") {
         mode = COOL;
@@ -82,7 +92,8 @@ int setModeFromString(String inputString) {
         return 2;
     } else if (inputString == "REDALERT") {
         mode = REDALERT;
-        Particle.publish("RedAlert", "RedAlert");
+        delay(2000);
+        Particle.publish("djoCloudRedAlert", "Too hot, please add water!");
         return 3;
     } else {
         return -1; //If we get here return a Sentinel Value. -1 is common for errors.
