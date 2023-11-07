@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 
 // check if the user has entered the correct number of arguments. If not, print the correct usage and exit the program.
     if (argc != 2) {
-        cout << "Usage: program.exe testArray.txt" << endl;
+        // cout << "Usage: program.exe fileName.txt" << endl;
         return 1;
     }
 // get the filename from the command line argument. This is the name of the text file that contains the array to be transformed.
@@ -35,6 +35,7 @@ int main(int argc, char* argv[]) {
     int rows = 0;
     int columns = 0;
     string line;
+    int sum = 0;
     while (getline(testArray, line)) {
         // each line represents a row hence rows are counted as each line is read
         rows++;
@@ -45,7 +46,7 @@ int main(int argc, char* argv[]) {
                 numbers++;
             }
         }
-        columns = numbers+1; // since spaces are in between items, the number of spaces is one less than the number of items. 
+        columns = numbers; // since there is an extra space at the end of each item, the number of spaces is equal to the number of items
     }
 
 // for testing purposes, print the number of rows and columns
@@ -90,17 +91,18 @@ for (int i = 0; i < rows; i++) {
     transformedArray[i] = new int[columns];
 }
 
+
 // Calculate the average of each pixel and its neighbors, the neighbours being the pixels above, below, to the left and to the right and diagonal to the pixel
 
 for (int i = 0; i < rows; i++) {
     for (int j = 0; j < columns; j++) {
-        int sum = array[i][j]; // sum starts out as the calue of the pixel itself. The steps below add the values of the neighbour pixels around it
+        sum = array[i][j]; // sum starts out as the calue of the pixel itself. The steps below add the values of the neighbour pixels around it
         int count = 1; // count starts out as 1 because the pixel itself is counted. it will be used to calculate the average. 
-
+;
 /* the below 3 if statements add the top & top diagnol pixels if they exist */
 
         if (i > 0) { // ensure pixel above exists. 
-            sum += array[i - 1][j]; // add pixel one row above
+            sum += array[i - 1][j]; // add pixel one row above;
 
             count++; // increment count because the pixel above exists and is added to sum. I will not repeat this comment for the other if statements below.
 
@@ -124,7 +126,7 @@ for (int i = 0; i < rows; i++) {
             }
             if (j < columns - 1) { // ensure pixel to the bottom right exists.
                 sum += array[i + 1][j + 1]; // add pixel that is one row below and one column to the right
-                count++;
+                count++;;
             }
         }
         if (j > 0) { // ensure pixel to the left exists.   

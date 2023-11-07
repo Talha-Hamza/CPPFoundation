@@ -39,8 +39,9 @@ int main(int agrc, char* argv[]){
             // cout << setw(3) << rand() % (max * 2 + 1) - max;
             randArray << rand() % (max * 2 + 1) - max << " "; // write a random number between -max and max to the file
         }
-        cout << endl;
-        randArray << endl;
+        if (i != r-1){
+            randArray << endl;
+        }
     }
 
     // close the file 
