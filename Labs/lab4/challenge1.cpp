@@ -3,18 +3,25 @@
 using namespace std;
 
 // BUILD NO REPEAT 
-void append(char first[], char second[],  char result[])
+void noRepeat(char first[], char second[],  char result[])
 {
 int i = 0;
 int j = 0;
     for (i = 0; first[i]!= '\0'; i++) {
-        result[i] = first[i];
-        // cout << "item " << i << " " << result[i] << endl;
+
+        for (int k = 0; k<i; k++) {
+            if (first[i] != first[k]) {
+                result[i] = first[i];
+            }
+        }
     }
 
     for (j = 0; second[j]!= '\0'; j++) {
-        result[j + i] = second[j];
-        // cout << "item " << j << " " << result[j + i] << endl;
+        for (int k = 0; k<i; k++) {
+            if (first[i] != first[k]) {
+                result[j + i] = second[j];;
+            }
+        }
     }
 
     // Null-terminate the result string
@@ -36,10 +43,10 @@ int j = 0;
 
 int main(){
 
-char first[] = "I am ";
-char second[] = {'i', 'r', 'o', 'n', 'm', 'a', 'n', '\0'}; 
+char first[] = {'h', 'e', 'l', 'l', 'o', ' '};
+char second[] = {'l', 'l', 'a', 'm', 'a'}; 
 char result[100];
-append(first, second, result); 
+// append(first, second, result); 
 cout << result;
 return 0;
 }
