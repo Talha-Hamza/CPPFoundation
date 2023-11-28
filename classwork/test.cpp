@@ -35,6 +35,11 @@ cout <<endl << endl << "joseph's favourite number: " << *joseph << endl ;
 cout << "talha's favourite number: : " << *talha << endl << "mike's favourite number: ";
 cout << *mike <<endl<< "andrew's favourite number: " << *andrew<< endl << endl;
 
+// array remains unharmed
+for (int i = 0; i < 10; i++)
+{
+    cout << array[i];
+}
 
     return 0;
 }
