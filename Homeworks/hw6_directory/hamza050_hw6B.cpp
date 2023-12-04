@@ -1,3 +1,8 @@
+// EE 1301 
+// HW 6B
+// Talha Hamza
+// HAMZA050
+
 #include <iostream>
 #include <cstdlib>
 #include <string>
@@ -5,31 +10,32 @@
 #include <vector> 
 using namespace std;
 
+// Dice class declaration
 class Dice{ 
-    private:
-    int min ;
-    int max;
+    private: 
+    int min ; // minimum value of the dice
+    int max; // maximum value of the dice
 
     public:
-    Dice(int input_min = 1, int input_max = 6);
-
-    int roll(int input_min, int input_max);
+    Dice(int input_min = 1, int input_max = 6); // constructor
+    int roll(int input_min, int input_max); // roll function
 
 };
 
+// Dice class definition
 Dice::Dice(int input_min, int input_max){
     min = input_min;
     max = input_max;
     // srand(time(NULL));
 }
-
+// roll function definition
 int Dice::roll(int input_min, int input_max){
-int num = (rand() % (input_max-input_min+1)) + input_min;
+int num = (rand() % (input_max-input_min+1)) + input_min; // random number generator
 return num;
 }
 
 const int MAX_NUM_DICE=50;
-
+// pre written code. Parse the user input and store the results in the pairs array
 void userInputParser(string s, int dice[], int maxNumDie) ;
 
 int main() {
@@ -49,7 +55,8 @@ int main() {
     //     cout << pairs[j] << " ";
     // }
     // cout << endl;
-    
+     
+    // ask the user how many rounds they want to roll 
     cout << "How many rounds do you want to roll? " ;
     int rounds;
     cin >> rounds;
