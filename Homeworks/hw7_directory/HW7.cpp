@@ -99,8 +99,7 @@ int main(int argc, char *argv[]) {
 
         PrintAveragePriceByZip(listHead);
 
-        DelAllRecords(listHead); // Delete entire linked list
-        
+        DelAllRecords(listHead); // Delete entire linked list        
 
         fin.close();
           
