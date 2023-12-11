@@ -95,8 +95,7 @@ int main(int argc, char *argv[]) {
             }
         }
         
-        // PrintAllHousesByZip(listHead);
-        // FindNodeLessThanZip(listHead, 98126);
+        // PrintAllHousesByZip(listHead); //for testing purposes
 
         PrintAveragePriceByZip(listHead);
 
@@ -188,122 +187,152 @@ void PrintAllHousesByZip(houseData* head){
     }
 }
 
-
-houseData* AddRecord(houseData* listHead, houseData* houseToAdd) {
-    
-    if (listHead == nullptr){ // If linked list is empty, incoming house is the first head
-    listHead = houseToAdd;
-    return listHead;
-    }
-    
-    else{
-        houseData* current = listHead; // I am going to start going through the list at the very beginning
-        houseData* previous = nullptr;
-        if (houseToAdd->zipcode < listHead->zipcode){ // If incoming house has a smaller zipcode than head, it necomes new list head
-        houseToAdd->nextZip = listHead;
-        return houseToAdd;
-        }
-        else{
-            if (houseToAdd->id == current->id){return listHead;} // check if incoming house is the duplicate of head 
-            else{
-            current = listHead->nextZip;
-            previous = listHead;
-            while(current!=nullptr) {
-                if (houseToAdd->zipcode < current->zipcode){ // If the incoming house has zip code less that next house in search, place it there
-                previous->nextZip = houseToAdd;
-                houseToAdd->nextZip = current;
-                return listHead;
-                }
-                else if (houseToAdd->id == current->id){return listHead;} // check if incoming house is the duplicate of the current element being checked 
-                else{
-                previous = current; // if not increment both previous and current to the next elements
-                current = current->nextZip;
-                }
-
-            }
-        previous->nextZip = houseToAdd; // reached end of list without a zipcode being less that incoming house's zip code. 
-        houseToAdd->nextZip =nullptr; 
-        return listHead;
-            }
-        }    
-    }
-}
-
+// Detailed explaination of the FindNodeLessThanZip function:
+// The FindNodeLessThanZip function takes in a pointer to the head of the linked list and a target zipcode.
+// The function first initializes the current node to the head of the list and the previous node to null.
+// The function then loops through the linked list.
+// If the target zipcode is greater than the current node's zipcode, then the function saves the current node as the previous node.
+// The function then increments the current node to the next node.
+// The function then returns the previous node.
+        
 houseData* FindNodeLessThanZip(houseData* head, int zipcode) {
-    houseData* previous = nullptr; // Pointer to the previous node during traversal.
     houseData* current = head; // Pointer to the current node during traversal.
-    houseData* node_holder = nullptr; // Pointer to the node with the zipcode less than the target zipcode.
+    houseData* previous = nullptr; // Pointer to the node with the zipcode less than the target zipcode.
 
     while (current != nullptr) {
         if (zipcode > current->zipcode) { 
-            node_holder = current;
-            // If the incoming house has zip code greater than the checking node, save that node.
-        } else {
-            // If not, increment both previous and current to the next elements.
             previous = current;
+            // If the incoming house has zip code greater than the checking node, save that node.
         }
         current = current->nextZip; // Increment current to the next element.
     }
 
-    if (node_holder == nullptr){ // If no node was found with a zipcode less than the target zipcode, return head.
-        cout << "No node with a zipcode less than " << zipcode << ". Returning head." << endl;
-        node_holder = head;
+    if (previous == nullptr){ // if no node has a zipcode less than the target, then the new node being added is the new head
+        // cout << "No node has a zipcode less than the target zipcode. Returning head with Zip code: " << head->zipcode << endl;
+        return nullptr;
     }
-    cout << "Returning Node with Zip code: " << node_holder->zipcode << endl;
-    return node_holder;
+
+    // cout <<"Got the zipcode: "<< zipcode << " Returning Node with Zip code: " << previous->zipcode << endl;
+    return previous;
 }
 
+// Detailed explanation of the AddRecord function:
+// The AddRecord function takes in a pointer to the head of the linked list and a pointer to the house to be added to the list.
+// The function first checks if the list is empty. If it is, then the new house becomes the head of the list.
+// If the list is not empty, then the function finds the node with the nearest zip code less than the target zip code.
+// If the previous node is null, then the new house becomes the head of the list.
+// If the previous node is not null, then the function checks the entire existing list to see if the house is already in the list.
+// If the house is already in the list, then the function returns the head of the list.
+// If the house is not already in the list, then the function adds it to the list and returns the head of the list.
+
+
+houseData* AddRecord(houseData* listHead, houseData* houseToAdd) {
+  // Check if the list is empty
+  if (listHead == nullptr) {
+    // If empty, the new house becomes the head
+    listHead = houseToAdd;
+    return listHead;
+  }
+
+  // Find the node with the nearest zip code less than the target zip code
+  houseData* previous = FindNodeLessThanZip(listHead, houseToAdd->zipcode);
+
+    // If the previous node is null, then the new house becomes the head
+    if (previous == nullptr) {
+        houseToAdd->nextZip = listHead;
+        return houseToAdd;
+    }
+
+    else{
+
+    // Check the entire existing list to see if the house is already in the list
+        houseData* current = listHead;
+        while (current != nullptr) {
+            if (houseToAdd->id == current->id) {
+                // If the house is already in the list, return the head
+                return listHead;
+            }
+            current = current->nextZip;
+        }
+        
+        // If the house is not already in the list, add it to the list
+        houseToAdd->nextZip = previous->nextZip;
+        previous->nextZip = houseToAdd;
+        return listHead;
+    }
+}
+
+// Detailed explanation of the PrintAveragePriceByZip function:
+// The PrintAveragePriceByZip function takes in a pointer to the head of the linked list.
+// The function first initializes the sum and count variables to zero.
+// The function then initializes the previous and current nodes to null.
+// The function then loops through the linked list.
+// If the previous node is null or the previous node's zip code is not equal to the current node's zip code, then the function calculates and prints the average price for the previous zip code.
+// The function then resets the sum and count variables to zero.
+// The function then updates the sum and count variables for the current zip code.
+// The function then updates the previous and current nodes.
+// The function then prints the average price for the last zip code.
 
 void PrintAveragePriceByZip(houseData* head) {
-    int sum = 0; // Sum of all prices for a given zipcode.
-    int count = 0; // Number of houses for a given zipcode.
-    int average = 0; // Average price for a given zipcode.
+    // Initialize variables
+    long sum = 0;
+    int count = 0;
+    int average = 0;
 
-    houseData* previous = head;      // Pointer to the previous node during traversal.
-    houseData* current = head->nextZip; // Pointer to the current node during traversal.
+    // Initialize previous and current nodes
+    houseData* previous = nullptr;
+    houseData* current = head;
 
-    // Iterate through the linked list.
+    // Loop through the linked list
     while (current != nullptr) {
-        // If the current node's zip code is less than the target zipcode,
-        // update node_holder to the current node.
-        if (previous->zipcode == current->zipcode) { // If the current node's zip code is equal to the previous node's zip code,
-            sum = sum + previous->price; // add the price of the previous node to the sum.
-            count = count + 1; 
-            previous = current;
-            current = current->nextZip; // Increment current to the next element.
+        // Check if zip code changed
+        if (previous == nullptr || previous->zipcode != current->zipcode) {
+            // Calculate and print average for previous zip code if not the first iteration
+            if (previous != nullptr) {
+                average = count == 0 ? 0 : sum / count; // Avoid division by zero
+                cout << previous->zipcode << ":average price=" << average << endl;
+                
+                // Reset sum and count for new zip code
+                sum = 0;
+                count = 0;
+            }
         }
-        else{ // If the current node's zip code is not equal to the previous node's zip code, 
-             // print the average price for the previous node's zip code and reset the sum and count to move on to the next zipcode.
-            sum = sum + previous->price;
-            count = count + 1;
-            average = sum/count;
-            cout << previous->zipcode << ":average price=" << average << endl;
-            previous = current;
-            current = current->nextZip;
-            sum = 0;
-            count = 0;
-        }
-    }
-    // Print the average price for the last zipcode.
-    sum = sum + previous->price;
-    count = count + 1;
-    average = sum/count;
-    cout << previous->zipcode << ":average price=" << average << endl;
-    sum = 0;    
-    count = 0;
+
+        // Update sum and count for current zip code
+        sum += current->price;
+        count++;
+
+        // Update previous and current nodes
+        previous = current;
+        current = current->nextZip;
     }
 
-// Function to deallocate entire linked list
+    // Print average for the last zip code
+    if (previous != nullptr) {
+        average = count == 0 ? 0 : sum / count; // Avoid division by zero
+        cout << previous->zipcode << ":average price=" << average << endl;
+    }
+}
+
+// Detailed explanation of the DelAllRecords function:
+// The DelAllRecords function takes in a pointer to the head of the linked list.
+// The function first initializes the current and next nodes to null.
+// The function then loops through the linked list.
+// The function then deletes the current node.
+// The function then updates the current node to the next node.
+// The function then sets the head to null.
+
 void DelAllRecords(houseData *head) {
-    // 7) TODO: Implement this function
-    // Delete all records in the linked list and free the memory
+    
     houseData* current = head;
     houseData* next = nullptr;
+
     while (current != nullptr) {
         next = current->nextZip;
         delete current;
         current = next;
     }
+
     head = nullptr;
 
 }
