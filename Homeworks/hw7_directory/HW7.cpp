@@ -192,7 +192,7 @@ void PrintAllHousesByZip(houseData* head){
 // The function then loops through the linked list.
 // If the target zipcode is greater than the current node's zipcode, then the function saves the current node as the previous node.
 // The function then increments the current node to the next node.
-// The function then returns the previous node.
+// The function then returns the previous node. this is a change
         
 houseData* FindNodeLessThanZip(houseData* head, int zipcode) {
     houseData* current = head; // Pointer to the current node during traversal.
